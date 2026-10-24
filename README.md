@@ -24,7 +24,9 @@ Pentru trimiterea e-mailului de pe calculator, setează aceleași variabile ca m
 
 1. Creează un **repository privat** pe GitHub și urcă proiectul în el.
 2. Contul care trimite e-mailurile (recomandat: un Gmail dedicat):
-   activează verificarea în doi pași, apoi creează o **parolă de aplicație** (Cont Google → Securitate → Parole pentru aplicații).
+   activează verificarea în doi pași (Cont Google → Securitate → Verificare în doi pași), apoi creează o
+   **parolă de aplicație** la adresa <https://myaccount.google.com/apppasswords>. Opțiunea nu mai apare în
+   meniul de Securitate, se ajunge la ea doar prin acest link. Copiază parola imediat: Google n-o mai afișează a doua oară.
 3. În repository: **Settings → Secrets and variables → Actions → New repository secret**:
 
    | Secret          | Valoare                                            |
