@@ -1,13 +1,59 @@
 # Un cuvânt sau o expresie pe rând. Nu contează majusculele și diacriticele.
 # Un * la final prinde orice terminație: "dobând*" găsește dobândă, dobânzi, dobânzile...
-bancă
-bănci*
-BNR
-dobând*
-dobânz*
-inflați*
-bursă
-BVB
-ROBOR
-credit*
-Fed
+QR code payments
+contactless payments
+mobile payments
+digital payments
+agentic payments
+crypto payments
+Account to Account (A2A) payments
+open banking payments
+stablecoins payments
+Pay by Bank
+card payments
+digital euro
+BNPL (buy now pay later)
+authorised push payments (APP) fraud
+financial scams
+imposter scams
+investment scams
+identity theft
+deepfake fraud
+bank account takeover
+card fraud
+card not present fraud
+online shopping fraud
+cybersecurity
+AML (Anti Money Laundering)
+agentic banking
+agentic automation
+autonomous banking
+blockchain in banking
+blockchain infrastructure
+AI in banking
+asset tokenization
+cloud computing
+quantum computing
+open finance
+trends in finance
+trends in banking
+digital wallets
+digital money
+digital onboarding
+digital identity
+digital banking transformation
+neobanks
+digital-only banks
+CBDCs (central bank digital currencies)
+mobile commerce
+ecommerce
+agentic commerce
+robo advising/advisors
+robotic process automation
+PSD2
+PSD3
+MiCA framework (Markets in Crypto Assets regulation)
+GENIUS Act
+EU AI Act
+Digital Operational Resilience Act (DORA)
+EUDI Wallet
