@@ -1,5 +1,6 @@
 """Pagina HTML a raportului. Stiluri inline, pe o coloană, ca să arate bine și în e-mail pe telefon."""
 
+import re
 from collections import defaultdict
 from datetime import datetime
 from html import escape
@@ -17,6 +18,36 @@ def source_name(site: str) -> str:
     """'https://www.ft.com/' -> 'ft.com'; păstrează calea dacă există ('home.barclays/news/press-releases')."""
     name = site.split("://", 1)[-1].removeprefix("www.").rstrip("/")
     return name.removesuffix("/index.html")
+
+
+def failure_reason(result: SiteResult) -> str:
+    """Motivul, pe înțelesul cititorului, pentru care de pe un site nu s-a cules nimic."""
+    error = result.error
+    code = re.match(r"(\d{3}) ", error)
+    if code:
+        status = int(code.group(1))
+        if status in (401, 403):
+            return f"Site-ul blochează accesul automat ({status})"
+        if status == 402:
+            return "Conținut doar cu abonament (402)"
+        if status == 404:
+            return "Pagina nu mai există (404)"
+        if status == 429:
+            return "Site-ul a limitat accesul, prea multe cereri (429)"
+        if status >= 500:
+            return f"Site-ul are probleme tehnice ({status})"
+        return f"Site-ul a refuzat cererea ({status})"
+    if "NameResolution" in error or "getaddrinfo" in error:
+        return "Adresa nu există sau domeniul a expirat"
+    if "timed out" in error.lower():
+        return "Site-ul nu a răspuns la timp"
+    if "SSL" in error or "certificate" in error.lower():
+        return "Problemă cu certificatul de securitate al site-ului"
+    if "Connection" in error:
+        return "Nu se poate face conexiunea cu site-ul"
+    if not error or "nu am găsit" in error:
+        return "Site-ul răspunde, dar pagina nu conține titluri de articole (nici flux RSS)"
+    return f"Eroare: {error[:80]}"
 
 
 def romanian_date(dt: datetime) -> str:
@@ -72,25 +103,26 @@ def build_report(
         sections.append('<p style="color:#555">Niciun articol nou de ieri încoace.</p>')
 
     failed = [r for r in results if r.error or not r.articles]
-    # Lista scurtă de sus: doar numele site-urilor; motivele detaliate rămân în josul paginii.
-    failed_summary = (
-        '<p style="background:#fdf3e1;color:#7a4b00;font-size:13px;line-height:1.5;padding:8px 10px;'
-        f'border-radius:4px;margin:12px 0 0"><b>Site-uri de pe care nu s-a putut culege nimic ({len(failed)}):</b> '
-        + ", ".join(escape(source_name(r.site)) for r in failed)
-        + "</p>"
+    cell = "padding:5px 8px;border-top:1px solid #f0dcb4;vertical-align:top"
+    failed_table = (
+        '<div style="background:#fdf3e1;color:#7a4b00;font-size:13px;line-height:1.4;padding:8px 10px;'
+        'border-radius:4px;margin:12px 0 0">'
+        f"<b>Site-uri de pe care nu s-a putut culege nimic ({len(failed)})</b>"
+        '<table role="presentation" style="width:100%;border-collapse:collapse;margin-top:6px;font-size:13px">'
+        f'<tr><th style="{cell};text-align:left;border-top:none">Site</th>'
+        f'<th style="{cell};text-align:left;border-top:none">Motiv</th></tr>'
+        + "".join(
+            f'<tr><td style="{cell};word-break:break-all;width:40%">{escape(source_name(r.site))}</td>'
+            f'<td style="{cell}">{escape(failure_reason(r))}</td></tr>'
+            for r in failed
+        )
+        + "</table></div>"
         if failed else ""
     )
     footer = (
         f'<p style="color:#888;font-size:12px;margin-top:32px">Site-uri verificate: '
-        f"{len(results)} · articole noi: {len(matches)}</p>"
+        f"{len(results)} · fără rezultat: {len(failed)} · articole noi: {len(matches)}</p>"
     )
-    if failed:
-        footer += (
-            '<details style="color:#888;font-size:12px"><summary>Site-uri care nu au răspuns '
-            f"({len(failed)})</summary><ul>"
-            + "".join(f"<li>{escape(r.site)}: {escape(r.error or 'niciun articol')}</li>" for r in failed)
-            + "</ul></details>"
-        )
 
     title = f"Revista presei – {romanian_date(now)} (creată de Alex)"
     return (
@@ -101,7 +133,7 @@ def build_report(
         f'<div style="max-width:680px;margin:0 auto;padding:16px">'
         f'<h1 style="font-size:20px;margin:0 0 4px">{escape(title)}</h1>'
         f'<p style="color:#555;margin:0">{len(matches)} articole noi din {len(by_source)} surse</p>'
-        + failed_summary
+        + failed_table
         + "".join(sections)
         + footer
         + "</div></body></html>"
