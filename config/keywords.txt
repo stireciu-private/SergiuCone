@@ -1,59 +1,80 @@
-# Un cuvânt sau o expresie pe rând. Nu contează majusculele și diacriticele.
-# Un * la final prinde orice terminație: "dobând*" găsește dobândă, dobânzi, dobânzile...
-QR code payments
-contactless payments
-mobile payments
-digital payments
-agentic payments
-crypto payments
-Account to Account (A2A) payments
-open banking payments
-stablecoins payments
-Pay by Bank
-card payments
-digital euro
-BNPL (buy now pay later)
-authorised push payments (APP) fraud
-financial scams
-imposter scams
-investment scams
-identity theft
-deepfake fraud
-bank account takeover
-card fraud
-card not present fraud
-online shopping fraud
-cybersecurity
-AML (Anti Money Laundering)
-agentic banking
-agentic automation
-autonomous banking
-blockchain in banking
-blockchain infrastructure
-AI in banking
-asset tokenization
-cloud computing
-quantum computing
-open finance
-trends in finance
-trends in banking
-digital wallets
-digital money
-digital onboarding
-digital identity
-digital banking transformation
-neobanks
-digital-only banks
-CBDCs (central bank digital currencies)
-mobile commerce
-ecommerce
-agentic commerce
-robo advising/advisors
-robotic process automation
-PSD2
-PSD3
-MiCA framework (Markets in Crypto Assets regulation)
-GENIUS Act
-EU AI Act
-Digital Operational Resilience Act (DORA)
-EUDI Wallet
+# Fiecare rând = un subiect. Variantele lui se despart prin " | " (de obicei engleză, apoi română).
+# Prima variantă de pe rând e numele subiectului afișat în raport.
+#
+# Cum se caută:
+# - cuvintele se compară după rădăcină: „plăți” găsește și „plata”, „plățile”; „payments” găsește și „payment”;
+# - majusculele și diacriticele nu contează;
+# - cuvintele unei expresii trebuie să apară în aceeași ordine, cu cel mult 3 cuvinte între ele;
+# - cuvintele mărunte (in, of, by, de, la, cu, pentru...) sunt ignorate;
+# - un * la final prinde orice terminație: „înșelăt*” găsește înșelătorie, înșelătorii, înșelați;
+# - o variantă între ghilimele ("pay by bank") trebuie să apară exact, cuvânt cu cuvânt;
+# - acronimele (AML, MiCA, DORA, PSD2...) se caută exact cum sunt scrise, cu majusculele lor.
+
+# --- Plăți ---
+QR code payments | QR payments | QR code payment | plăți QR | plată QR | plăți cu cod QR | plata cu codul QR
+contactless payments | contactless payment | contactless card | plăți contactless | plată contactless | plăți fără contact
+mobile payments | mobile payment | mobile wallet | plăți mobile | plăți cu telefonul | plata cu telefonul
+digital payments | digital payment | electronic payments | plăți digitale | plăți electronice | plata digitală
+agentic payments | agentic payment | AI agents payments | plăți agentice | plăți făcute de agenți AI
+crypto payments | crypto payment | cryptocurrency payments | plăți cripto | plăți în criptomonede | plata cu criptomonede
+A2A payments | "account to account payments" | "account-to-account payments" | "account-to-account" | plăți A2A | "plăți de la cont la cont"
+open banking payments | open banking | plăți open banking
+stablecoin payments | stablecoin | stablecoins | monede stabile
+"Pay by Bank" | "plată prin bancă" | "plata direct din contul bancar"
+card payments | card payment | plăți cu cardul | plata cu cardul | plăți cu carduri
+digital euro | euro digital | euroul digital | moneda euro digitală
+BNPL | buy now pay later | buy now, pay later | cumpără acum plătește mai târziu | plata în rate fără dobândă
+
+# --- Fraude și înșelătorii ---
+APP fraud | authorised push payment fraud | authorized push payment fraud | push payment scam
+financial scams | financial scam | financial fraud | înșelăt* financiare | fraude financiare | fraudă financiară | țepe financiare
+imposter scams | impostor scams | impersonation scams | impersonation fraud | impersonare | falși angajați ai băncii | falși angajați bancari | se dau drept angajați
+investment scams | investment scam | investment fraud | înșelăt* cu investiții | fraude cu investiții | investiții false | platforme de investiții false
+identity theft | identity fraud | furt de identitate | furtul identității | identitate furată
+deepfake fraud | deepfake scams | deepfake scam | fraude deepfake | înșelăt* deepfake
+bank account takeover | account takeover | conturi bancare compromise | preluarea controlului contului | conturi sparte
+card fraud | card scams | fraude cu carduri | fraudă cu cardul | clonare card | carduri clonate
+card not present fraud | card-not-present | fraude cu cardul online
+online shopping fraud | online shopping scams | e-commerce fraud | fraude la cumpărături online | înșelăt* la cumpărături online | magazine online false
+cybersecurity | cyber security | cyberattack | cyber attack | ransomware | securitate cibernetică | atac cibernetic | atacuri cibernetice | securitatea cibernetică
+AML | anti money laundering | anti-money laundering | money laundering | spălarea banilor | spălare de bani | combaterea spălării banilor
+
+# --- Bănci, AI și tehnologie ---
+agentic banking | agentic bank | agentic AI banking | banking agentic | servicii bancare agentice
+agentic automation | agentic AI automation | automatizare agentică | automatizare cu agenți AI
+autonomous banking | autonomous finance | bancă autonomă | servicii bancare autonome
+blockchain in banking | blockchain banks | banks blockchain | blockchain bancar | blockchain în bănci | băncile blockchain
+blockchain infrastructure | blockchain network | blockchain platform | infrastructură blockchain | infrastructura blockchain
+AI in banking | AI banking | AI banks | AI bank | banks AI | inteligență artificială în bănci | inteligența artificială bancar | AI în bănci | băncile AI | AI bancar
+asset tokenization | asset tokenisation | tokenization | tokenisation | tokenized assets | tokenizare | tokenizarea activelor | active tokenizate
+cloud computing | cloud banking | bank cloud | cloud migration | servicii cloud | cloud bancar | migrare în cloud
+quantum computing | quantum computers | quantum computer | quantum-safe | calcul cuantic | calculatoare cuantice | computere cuantice | computerul cuantic
+open finance | finanțe deschise | finanțele deschise
+trends in finance | finance trends | fintech trends | financial trends | tendințe în finanțe | tendințe fintech | tendințele financiare
+trends in banking | banking trends | bank trends | tendințe bancare | tendințe în banking | tendințele din sectorul bancar
+digital wallets | digital wallet | e-wallet | e-wallets | portofel digital | portofele digitale | portofel electronic | portofelul digital
+digital money | bani* digital* | monedă digitală | monede digitale
+digital onboarding | onboarding digital | remote onboarding | deschidere cont online | deschiderea contului online | cont deschis online
+digital identity | identitate digitală | identitatea digitală
+digital banking transformation | digital transformation banking | banking digital transformation | bank digital transformation | transformare digitală bancară | transformarea digitală a băncilor | digitalizare bancară | digitalizarea băncilor
+neobanks | neobank | neo-bank | challenger banks | challenger bank | neobănci | neobancă | neobanca | bănci digitale | bancă digitală
+digital-only banks | digital-only bank | online-only bank | bancă exclusiv digitală | bănci exclusiv digitale | bancă exclusiv online
+CBDCs | CBDC | central bank digital currency | central bank digital currencies | monedă digitală a băncii centrale | monede digitale ale băncilor centrale | moneda digitală a băncilor centrale
+
+# --- Comerț ---
+mobile commerce | m-commerce | comerț mobil | comerțul mobil
+ecommerce | e-commerce | comerț electronic | comerțul electronic | comerț online | comerțul online
+agentic commerce | agentic shopping | AI shopping agents | comerț agentic | cumpărături făcute de agenți AI
+robo-advisors | robo advisors | robo advisor | robo-advisor | robo advising | robo-advice | consilier robot | consilieri robot | robo-consilier
+
+# --- Automatizare ---
+robotic process automation | RPA | automatizarea proceselor robotice | automatizare robotică a proceselor
+
+# --- Reglementări ---
+PSD2 | second Payment Services Directive | directiva PSD2
+PSD3 | Payment Services Regulation | directiva PSD3 | regulamentul privind serviciile de plată
+MiCA | MiCAR | Markets in Crypto Assets | Markets in Crypto-Assets | piețele de criptoactive | regulamentul privind criptoactivele
+GENIUS Act | legea GENIUS
+EU AI Act | AI Act | Artificial Intelligence Act | actul european privind inteligența artificială | regulamentul european privind inteligența artificială | legea AI | regulamentul AI
+DORA | Digital Operational Resilience Act | reziliență operațională digitală | reziliența operațională digitală
+EUDI Wallet | EUDI | European Digital Identity Wallet | EU Digital Identity Wallet | portofelul european de identitate digitală | portofel european pentru identitate digitală

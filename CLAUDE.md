@@ -26,8 +26,13 @@ There is no test suite yet.
   (`/feed/`, `/rss`...) → fallback scraping same-domain `<a>` texts ≥ 30 chars from the homepage. Scraped items have
   no date. Any exception becomes `SiteResult.error` so one broken site never stops the run; errors are listed at
   the bottom of the report.
-- `match.py`: keywords and text are normalized (lowercase, diacritics stripped via NFKD, so ș/ş/s are equal);
-  trailing `*` = prefix match; otherwise whole-word.
+- `match.py`: one topic per line in `keywords.txt`, variants separated by ` | ` (EN + RO; the first variant is the
+  label shown in the report). Text and keywords are normalized (lowercase, NFKD diacritics stripped), then words
+  match by Snowball stems (Romanian ∪ English, plus a Romanian `-uri` plural fix). Variant words must appear in order
+  with ≤ `MAX_GAP` tokens between; stopwords are dropped from variants, which makes short variants loose: use
+  `"quoted"` variants for exact phrases (e.g. "Pay by Bank", "account-to-account"). Words with ≥ 2 capitals/digits
+  (AML, MiCA, DORA, PSD2) are acronyms, matched case-sensitively; never let one fall into `STOPWORDS` ("AI" vs "ai").
+  Trailing `*` = prefix match. Sanity-check keyword edits on real headlines: false positives are the usual failure.
 - `state.py`: `data/seen.json` holds, **per recipient** (keyed by a sha256 prefix of the address, never the address),
   canonical URLs (tracking params stripped) already emailed and `last_sent`. A new address starts empty, so its first
   email has every current match: an explicit user requirement. Each address gets its own email (`MAIL_TO` is comma-separated).

@@ -11,8 +11,9 @@ Workflow-ul nu face commit-uri în repository. Lista articolelor deja trimise (`
 ## Liste
 
 - `config/sites.txt`: un site pe rând (pagina principală sau direct adresa RSS).
-- `config/keywords.txt`: un cuvânt sau o expresie pe rând. Majusculele și diacriticele nu contează.
-  Un `*` la final prinde orice terminație: `dobânz*` găsește *dobânzi*, *dobânzile*, *dobânzilor*.
+- `config/keywords.txt`: un subiect pe rând, cu variante despărțite prin ` | ` (de obicei engleză, apoi română).
+  Cuvintele se compară după rădăcină, deci *plăți* găsește și *plata*, *plățile*. Regulile complete
+  (ordinea cuvintelor, `*`, ghilimele, acronime) sunt explicate chiar la începutul fișierului.
 
 ## Rulare locală
 
