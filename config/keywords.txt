@@ -1,0 +1,13 @@
+# Un cuvânt sau o expresie pe rând. Nu contează majusculele și diacriticele.
+# Un * la final prinde orice terminație: "dobând*" găsește dobândă, dobânzi, dobânzile...
+bancă
+bănci*
+BNR
+dobând*
+dobânz*
+inflați*
+bursă
+BVB
+ROBOR
+credit*
+Fed

@@ -1,0 +1,8 @@
+# Un site pe rând. Poate fi pagina principală sau direct adresa fluxului RSS.
+# Rândurile care încep cu # sunt ignorate.
+https://www.zf.ro
+https://www.bursa.ro
+https://www.economica.net
+https://www.profit.ro
+https://www.wall-street.ro
+https://www.reuters.com

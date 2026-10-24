@@ -1,0 +1,45 @@
+name: Revista presei
+
+on:
+  schedule:
+    # GitHub lucrează în UTC. 05:00 UTC = 08:00 vara, 06:00 UTC = 08:00 iarna;
+    # scriptul (--scheduled) trimite o singură dată pe zi, la prima rulare de după 08:00.
+    - cron: "0 5 * * *"
+    - cron: "0 6 * * *"
+  workflow_dispatch: # buton „Run workflow” pentru o rulare manuală
+
+permissions:
+  contents: write # ca să poată salva istoricul (data/seen.json și reports/) înapoi în repository
+
+concurrency:
+  group: revista-presei
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Colectează articolele și trimite e-mailul
+        run: python -m stiri ${{ github.event_name == 'schedule' && '--scheduled' || '' }}
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+
+      - name: Salvează istoricul
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git add data reports
+          git diff --cached --quiet || (git commit -m "Raport $(date +%F)" && git push)
