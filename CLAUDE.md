@@ -29,7 +29,9 @@ There is no test suite yet.
 - `match.py`: keywords and text are normalized (lowercase, diacritics stripped via NFKD, so ș/ş/s are equal);
   trailing `*` = prefix match; otherwise whole-word.
 - `state.py`: `data/seen.json` holds canonical URLs (tracking params stripped) already emailed and `last_sent`.
-  GitHub Actions has no persistent disk, so the workflow commits `data/` and `reports/` back to the repo.
+  GitHub Actions has no persistent disk; the workflow carries `seen.json` between runs via `actions/cache`
+  (restore by prefix `seen-`, save under a new per-run key). The workflow deliberately makes **no commits**
+  (user's choice); `data/` and `reports/` are gitignored. Losing the cache only means one email with repeats.
 - `report.py`: one HTML used both as email body and as attachment/archive. All styles must stay **inline**,
   single-column (read mostly on an Android phone in Gmail); keep markup compact because Gmail clips bodies over ~102 KB.
 - `__main__.py`: orchestration. State is updated only after the email is sent successfully.

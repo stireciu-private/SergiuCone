@@ -2,7 +2,11 @@
 
 În fiecare dimineață, la puțin după 08:00 (ora României), scriptul verifică site-urile din `config/sites.txt`,
 păstrează articolele care conțin cuvintele din `config/keywords.txt` și nu au mai fost trimise, apoi trimite
-pe e-mail o pagină HTML cu ele. Fiecare raport rămâne și în folderul `reports/` (`stiri_AAAA-LL-ZZ.html`).
+pe e-mail o pagină HTML cu ele. Istoricul rapoartelor este în căsuța de e-mail.
+
+Workflow-ul nu face commit-uri în repository. Lista articolelor deja trimise (`data/seen.json`) se păstrează
+între rulări în cache-ul GitHub Actions. La rulările locale, rapoartele se salvează în `reports/`
+(`stiri_AAAA-LL-ZZ.html`), iar `data/` și `reports/` sunt excluse din git.
 
 ## Liste
 
