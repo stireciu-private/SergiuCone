@@ -3,25 +3,21 @@
 import os
 import smtplib
 from email.message import EmailMessage
-from pathlib import Path
 
 
-def send_report(subject: str, html: str, attachment: Path) -> None:
+def send_report(subject: str, html: str, recipient: str, filename: str) -> None:
     host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
     port = int(os.environ.get("SMTP_PORT", "465"))
     user = os.environ["SMTP_USER"]
     password = os.environ["SMTP_PASSWORD"]
-    recipients = [a.strip() for a in os.environ["MAIL_TO"].split(",") if a.strip()]
 
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = os.environ.get("MAIL_FROM", user)
-    msg["To"] = ", ".join(recipients)
+    msg["To"] = recipient
     msg.set_content("Raportul zilnic este în format HTML; deschide fișierul atașat.")
     msg.add_alternative(html, subtype="html")
-    msg.add_attachment(
-        attachment.read_bytes(), maintype="text", subtype="html", filename=attachment.name
-    )
+    msg.add_attachment(html.encode("utf-8"), maintype="text", subtype="html", filename=filename)
 
     if port == 465:
         with smtplib.SMTP_SSL(host, port, timeout=60) as smtp:

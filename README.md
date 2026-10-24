@@ -19,7 +19,7 @@ Workflow-ul nu face commit-uri în repository. Lista articolelor deja trimise (`
 ```
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
-.venv\Scripts\python -m stiri --dry-run     # doar generează pagina în reports/, fără e-mail
+.venv\Scripts\python -m stiri --dry-run     # doar generează în reports/ pagina cu tot ce ar primi un destinatar nou, fără e-mail
 ```
 
 Pentru trimiterea e-mailului de pe calculator, setează aceleași variabile ca mai jos și rulează `python -m stiri`.
@@ -39,7 +39,10 @@ Pentru trimiterea e-mailului de pe calculator, setează aceleași variabile ca m
    | `SMTP_PORT`     | `465`                                              |
    | `SMTP_USER`     | adresa Gmail care trimite                          |
    | `SMTP_PASSWORD` | parola de aplicație (16 caractere)                 |
-   | `MAIL_TO`       | destinatarul; mai mulți se despart prin virgulă    |
+   | `MAIL_TO`       | destinatarul; mai mulți se despart prin virgulă (1)|
+
+   (1) Fiecare adresă primește un e-mail separat, iar scriptul ține minte separat ce a trimis fiecăreia.
+   O adresă nouă primește la primul e-mail toate articolele găsite în acel moment.
 
 4. **Actions → Revista presei → Run workflow**, pentru un prim test. De acum rulează singur zilnic.
 

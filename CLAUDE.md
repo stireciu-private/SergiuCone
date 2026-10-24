@@ -13,9 +13,9 @@ Phase 2 (planned, not started): publishing a hand-picked subset on the friend's 
 
 ```
 .venv\Scripts\pip install -r requirements.txt
-.venv\Scripts\python -m stiri --dry-run     # fetch + write reports/stiri_<date>.html; no email, state untouched
+.venv\Scripts\python -m stiri --dry-run     # fetch + write reports/stiri_<date>.html with ALL matches (= what a new recipient gets); no email, state untouched
 .venv\Scripts\python -m stiri               # also email (needs SMTP_USER, SMTP_PASSWORD, MAIL_TO; SMTP_HOST/PORT default to Gmail 465)
-.venv\Scripts\python -m stiri --scheduled   # what cron runs: no-op unless >= 08:00 Europe/Bucharest and not already sent today
+.venv\Scripts\python -m stiri --scheduled   # what cron runs: no-op before 08:00 Europe/Bucharest; sends only to recipients not yet served today
 ```
 
 There is no test suite yet.
@@ -28,7 +28,9 @@ There is no test suite yet.
   the bottom of the report.
 - `match.py`: keywords and text are normalized (lowercase, diacritics stripped via NFKD, so ș/ş/s are equal);
   trailing `*` = prefix match; otherwise whole-word.
-- `state.py`: `data/seen.json` holds canonical URLs (tracking params stripped) already emailed and `last_sent`.
+- `state.py`: `data/seen.json` holds, **per recipient** (keyed by a sha256 prefix of the address, never the address),
+  canonical URLs (tracking params stripped) already emailed and `last_sent`. A new address starts empty, so its first
+  email has every current match: an explicit user requirement. Each address gets its own email (`MAIL_TO` is comma-separated).
   GitHub Actions has no persistent disk; the workflow carries `seen.json` between runs via `actions/cache`
   (restore by prefix `seen-`, save under a new per-run key). The workflow deliberately makes **no commits**
   (user's choice); `data/` and `reports/` are gitignored. Losing the cache only means one email with repeats.
