@@ -50,6 +50,13 @@ def failure_reason(result: SiteResult) -> str:
     return f"Eroare: {error[:80]}"
 
 
+def count(n: int, singular: str, plural: str) -> str:
+    """Numărul cu substantivul acordat: 1 site, 5 site-uri, 21 de site-uri, 236 de site-uri."""
+    if n == 1:
+        return f"1 {singular}"
+    return f"{n} de {plural}" if n % 100 >= 20 or (n and n % 100 == 0) else f"{n} {plural}"
+
+
 def romanian_date(dt: datetime) -> str:
     return f"{ZILE[dt.weekday()]}, {dt.day} {LUNI[dt.month - 1]} {dt.year}"
 
@@ -119,9 +126,20 @@ def build_report(
         + "</table></div>"
         if failed else ""
     )
-    footer = (
-        f'<p style="color:#888;font-size:12px;margin-top:32px">Site-uri verificate: '
-        f"{len(results)} · fără rezultat: {len(failed)} · articole noi: {len(matches)}</p>"
+    ok = len(results) - len(failed)
+    sites_line = f"Am căutat pe {count(len(results), 'site', 'site-uri')}: " + (
+        f"{ok} {'a răspuns' if ok == 1 else 'au răspuns'} cu articole, "
+        f"iar de pe {len(failed)} nu s-a putut culege nimic (sunt în tabelul de mai jos)."
+        if failed else "de pe toate s-au putut culege articole."
+    )
+    found_line = (
+        f"Pe temele urmărite am găsit {count(len(matches), 'articol nou', 'articole noi')}, "
+        f"din {count(len(by_source), 'sursă', 'surse')}."
+        if matches else "Pe temele urmărite nu am găsit niciun articol nou."
+    )
+    subtitle = (
+        f'<p style="color:#444;font-size:15px;line-height:1.5;margin:6px 0 0">{escape(sites_line)}<br>'
+        f"<b>{escape(found_line)}</b></p>"
     )
 
     title = f"Revista presei – {romanian_date(now)} (creată de Alex)"
@@ -132,9 +150,8 @@ def build_report(
         f'<body style="margin:0;background:#fff;{FONT}">'
         f'<div style="max-width:680px;margin:0 auto;padding:16px">'
         f'<h1 style="font-size:20px;margin:0 0 4px">{escape(title)}</h1>'
-        f'<p style="color:#555;margin:0">{len(matches)} articole noi din {len(by_source)} surse</p>'
+        + subtitle
         + failed_table
         + "".join(sections)
-        + footer
         + "</div></body></html>"
     )
