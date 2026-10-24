@@ -13,6 +13,12 @@ LUNI = ["ianuarie", "februarie", "martie", "aprilie", "mai", "iunie", "iulie",
 FONT = "font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
 
 
+def source_name(site: str) -> str:
+    """'https://www.ft.com/' -> 'ft.com'; păstrează calea dacă există ('home.barclays/news/press-releases')."""
+    name = site.split("://", 1)[-1].removeprefix("www.").rstrip("/")
+    return name.removesuffix("/index.html")
+
+
 def romanian_date(dt: datetime) -> str:
     return f"{ZILE[dt.weekday()]}, {dt.day} {LUNI[dt.month - 1]} {dt.year}"
 
@@ -65,7 +71,15 @@ def build_report(
     if not sections:
         sections.append('<p style="color:#555">Niciun articol nou de ieri încoace.</p>')
 
-    failed = [r for r in results if r.error]
+    failed = [r for r in results if r.error or not r.articles]
+    # Lista scurtă de sus: doar numele site-urilor; motivele detaliate rămân în josul paginii.
+    failed_summary = (
+        '<p style="background:#fdf3e1;color:#7a4b00;font-size:13px;line-height:1.5;padding:8px 10px;'
+        f'border-radius:4px;margin:12px 0 0"><b>Site-uri de pe care nu s-a putut culege nimic ({len(failed)}):</b> '
+        + ", ".join(escape(source_name(r.site)) for r in failed)
+        + "</p>"
+        if failed else ""
+    )
     footer = (
         f'<p style="color:#888;font-size:12px;margin-top:32px">Site-uri verificate: '
         f"{len(results)} · articole noi: {len(matches)}</p>"
@@ -74,11 +88,11 @@ def build_report(
         footer += (
             '<details style="color:#888;font-size:12px"><summary>Site-uri care nu au răspuns '
             f"({len(failed)})</summary><ul>"
-            + "".join(f"<li>{escape(r.site)}: {escape(r.error)}</li>" for r in failed)
+            + "".join(f"<li>{escape(r.site)}: {escape(r.error or 'niciun articol')}</li>" for r in failed)
             + "</ul></details>"
         )
 
-    title = f"Revista presei – {romanian_date(now)}"
+    title = f"Revista presei – {romanian_date(now)} (creată de Alex)"
     return (
         f'<!doctype html><html lang="ro"><head><meta charset="utf-8">'
         f'<meta name="viewport" content="width=device-width,initial-scale=1">'
@@ -87,6 +101,7 @@ def build_report(
         f'<div style="max-width:680px;margin:0 auto;padding:16px">'
         f'<h1 style="font-size:20px;margin:0 0 4px">{escape(title)}</h1>'
         f'<p style="color:#555;margin:0">{len(matches)} articole noi din {len(by_source)} surse</p>'
+        + failed_summary
         + "".join(sections)
         + footer
         + "</div></body></html>"
